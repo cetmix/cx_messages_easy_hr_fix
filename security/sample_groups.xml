@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+
+        <!-- ========================-->
+        <!-- Category: Cetmix Module -->
+        <!-- ========================-->
+        <record model="ir.module.category" id="module_cetmix_module">
+            <field name="name">Cetmix Module</field>
+            <field name="description">Manage Cetmix Module</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <!-- Do Something To Cetmix Module -->
+        <record id="group_cetmix_module_do_something" model="res.groups">
+            <field name="name">Do Something</field>
+            <field name="comment">Do Something To Cetmix Module</field>
+            <field name="category_id" ref="module_cetmix_module"/>
+        </record>
+
+        <!-- Do Anything To Cetmix Module -->
+        <record id="group_cetmix_module_do_anything" model="res.groups">
+            <field name="name">Do Anything</field>
+            <field name="comment">Do Anything To Cetmix Module</field>
+            <field name="category_id" ref="module_cetmix_module"/>
+            <field name="implied_ids" eval="[(4, ref('group_cetmix_module_do_something'))]"/>
+        </record>
+
+    </data>
+</odoo>

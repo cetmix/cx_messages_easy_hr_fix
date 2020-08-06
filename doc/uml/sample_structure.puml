@@ -1,0 +1,48 @@
+
+@startuml
+' uncomment the line below if you're using computer with a retina display
+' skinparam dpi 300
+!define Model(name,desc) class name as "desc" << (M,#FFAAAA) >>
+!define required(x) <b>x</b>
+!define computed(x) <color:green>x</color>
+!define stored(x) <u>x</u>
+!define readonly(x) <i>x</i>
+!define m2o(x) <color:red><i>x</i></color>
+!define o2m(x) <color:orange><i>x</i></color>
+!define m2m(x) <color:magenta><i>x</i></color>
+!define rel(x) <color:blue><i>x</i></color>
+
+' other tags available:
+' <i></i>
+' <back:COLOR></color>, where color is a color name or html color code
+' (#FFAACC)
+' see: http://plantuml.com/classes.html#More
+hide methods
+hide stereotypes
+
+' entities
+' new
+Model(some_custom_model, "Some Custom Model\n some.custom.model") {
+    required(name) Char Name
+    ..
+    required(partner_id) Many2one Server URL
+    m2o(res.partner)
+    ..
+    some_text_field Text Put some text here
+    ..
+
+}
+
+'existing
+Model(res_partner, "Partner\n res.partner") {
+    custom_record_ids One2many Relation to custom model
+    o2m(some.custom.model)
+}
+
+Model(res_config_settings, "General Settings\n res.partner") {
+    custom_record_ids One2many Relation to custom model
+}
+' relationships
+res_partner --> "partner_id" some_custom_model : "custom_record_ids"
+'some_custom_model --> "custom_record_ids" res_partner: "Related Partner"
+@enduml

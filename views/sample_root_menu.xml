@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!--## Root Menu ##-->
+    <menuitem id="menu_cetmix_module_root"
+              name="Cetmix Root Menu"
+              groups="base.group_user"
+              web_icon="cetmix_module_template,static/description/icon.png"
+              sequence="8"/>
+</odoo>

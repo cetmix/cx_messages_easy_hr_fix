@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Run some python function from xml -->
+    <data noupdate="0">
+        <function model="cetmix.custom.model" name="run_from_xml"/>
+    </data>
+</odoo>

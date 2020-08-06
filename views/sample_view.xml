@@ -1,0 +1,218 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <!--################
+        # Sample Model #
+        ################-->
+
+    <!--## Action ##-->
+    <record id="action_cetmix_module_records" model="ir.actions.act_window">
+        <field name="name">Sample Models</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">cetmix.custom.model</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <!--        <field name="context">{'search_default_some_filter':1}</field>-->
+        <field name="context">{}</field>
+    </record>
+
+    <!--## Kanban ##-->
+    <record model="ir.ui.view" id="view_cetmix_custom_model_kanban">
+        <field name="name">cetmix.custom.model.kanban</field>
+        <field name="model">cetmix.custom.model</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="partner_id"/>
+                <progressbar field="state" colors='{"7": "success", "4": "danger"}'/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><field name="partner_id"/></strong><br/>
+                                        <small class="o_kanban_record_subtitle text-muted">
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div t-if="record.partner_id"><field name="partner_id"/></div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                        <t t-if="record.message_needaction_counter.raw_value">
+                                            <span role="alert" class='oe_kanban_mail_new' title='Unread Messages'><i class='fa fa-comments' role="img" aria-label="Unread Messages"/><t t-raw="record.message_needaction_counter.raw_value"/></span>
+                                        </t>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <img t-att-src="kanban_image('res.users', 'image_small', record.create_uid.raw_value)" t-att-title="record.create_uid.value" t-att-alt="record.create_uid.value" width="24" height="24" class="oe_kanban_avatar"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!--## Inherited Form ##-->
+    <record id="cetmix_partner_form_tree" model="ir.ui.view">
+        <field name="name">cetmix.res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <button name="toggle_active" position="before">
+                <button name="partner_messages" type="object" class="oe_stat_button"
+                        icon="fa-envelope" attrs="{'invisible': [('messages_from_count', '=', 0)]}"
+                        context="{'open_mode': 'from'}">
+                    <field name="messages_from_count" widget="statinfo" string="Author"/>
+                </button>
+            </button>
+            <xpath expr="//field[@name='email']" position="replace">
+                <label for="email"/>
+                <div class="o_row">
+                    <span style="display:contents!important"><field name="email"/></span>
+                    <button type="object" name="send_email" class="btn-xs btn-link mb4 fa fa-envelope-o"
+                            attrs="{'invisible':[('email', '=', False)]}" context="{'field_name': 'email'}"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!--## Tree ##-->
+    <record id="cetmix_custom_model_view_tree" model="ir.ui.view">
+        <field name="name">cetmix.custom.model.view.tree</field>
+        <field name="model">cetmix.custom.model</field>
+        <field name="arch" type="xml">
+            <tree string="Sample Models">
+                <field name="partner_id"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <!--## Form ##-->
+    <record id="cetmix_custom_model_view_form" model="ir.ui.view">
+        <field name="name">cetmix.custom.model.view.form</field>
+        <field name="model">cetmix.custom.model</field>
+        <field name="priority">999999</field>
+        <!-- You can limit access to some groups -->
+        <field name="groups_id" eval="[(6,0, (ref('cetmix_custom_module.some_custom_group'),))]"/>
+        <field name="arch" type="xml">
+            <form string="Sample Model">
+                <header>
+                    <button type="object"
+                            name="button_cetmix_custom_model_start"
+                            string="Start"
+                            confirm="Are you sure?"
+                            attrs="{'invisible' : [('state', '!=', '1')]}"
+                            class="oe_highlight"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="preview_sale_order" type="object" class="oe_stat_button" icon="fa-globe icon">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_text">Customer</span>
+                                <span class="o_stat_text">Preview</span>
+                            </div>
+                        </button>
+                        <button name="button_partner" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <div class="o_field_widget o_stat_value">
+                                <field name="sample_balance"
+                                       string="Sample Balance"
+                                       widget="monetary"
+                                       options="{'currency_field': 'pj_currency_id'}"/>
+                            </div>
+                        </button>
+                        <button name="button_some_action" type="object"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o"
+                                attrs="{'invisible': [('sample_count', '=', 0)]}">
+                            <field name="sample_count" widget="statinfo" string="Sample Recs"/>
+                        </button>
+                        <button name="%(some_other_module.some_other_action)d"
+                                string="Other Action"
+                                type="action" class="oe_highlight"
+                                context="{'default_partner_id': active_id}"
+                                attrs="{'invisible': ['|', ('type', '=', 'fake'),('active', '=', False),('probability', '&lt;', 100)]}"/>
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="partner_id" placeholder="Name"/>
+                        </h1>
+                        <field name="server_id" placeholder="Select server"/>
+                    </div>
+                    <group>
+                        <group name="group_one">
+                            <field name="partner_id"
+                                   options="{'no_create': True, 'no_create_edit':True}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page name="page_lines" string="Sample Page">
+                            <field name="line_ids">
+                                <tree ediable="bottom">
+                                    <!-- Fields of the child model -->
+                                </tree>
+                                <!-- Kanban view for mobile only -->
+                                <kanban class="o_kanban_mobile">
+                                <field name="description"/>
+                                <field name="qty"/>
+                                <templates>
+                                    <t t-name="kanban-box">
+                                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <strong><field name="description"/></strong>
+                                                </div>
+                                                <div class="col-6 pull-right text-right">
+                                                    <span class="pull-right text-right">
+                                                        <field name="qty"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </t>
+                                </templates>
+                            </kanban>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!--## Search ##-->
+    <record id="cetmix_custom_model_view_search" model="ir.ui.view">
+        <field name="name">cetmix.custom.model.view.search</field>
+        <field name="model">cetmix.custom.model</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <filter string="Running" name="state_running" domain="[('state','=','r')]"/>
+                <separator/>
+                <group string="Group By">
+                    <filter string="State" name='groupby_state' domain="[]" context="{'group_by':'state'}"/>
+                    <separator/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!--## Menu ##-->
+    <menuitem id="menu_cetmix_module"
+              name="Cetmix Custom Module"
+              action="action_cetmix_modile_records"
+              parent="menu_cetmix_module_root"
+              groups="base.group_user"
+              sequence="2"/>
+</odoo>

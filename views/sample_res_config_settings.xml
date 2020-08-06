@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- ### Add New Settings Page ### -->
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.cetmix.sample.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <!-- ** Hint! Use module name in 'data-key' to show Module icon in Settings ** -->
+                <div class="app_settings_block" data-string="cetmix_sample" string="Cetmix Sample" data-key="cetmix_module_template">
+                    <h2>Cetmix Template Module</h2>
+                    <div class="row mt16 o_settings_container" id="cetmix_sample_settings">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="sample_product_id">
+                                <label for="sample_product_id"/>
+                                <div class="text-muted">
+                                    Sample Product
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="sample_product_id"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="sample_wizard">
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <button name="sample_wizard"
+                                                string="Sample Wizard"
+                                                class="btn-primary"
+                                                type="object"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ### Add New Settings To existing Setting Page ### -->
+    <record id="res_config_settings_view_form_to_existing" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.cetmix.sample.existing.settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="cetmix_module_template.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@data-key='cetmix_module_template']" position="inside">
+                <h2>Custom Section Title</h2>
+                <div class="row mt16 o_settings_container"
+                     id="cetmix_sample_additional_settings"
+                     title="Additional Custom Settings">
+                    <div class="col-12 col-lg-6 o_setting_box">
+                        <div class="sample_product_additional_ids">
+                            <label for="sample_product_additional_ids"/>
+                            <div class="text-muted">
+                                Sample Additional Products
+                            </div>
+                            <div class="content-group">
+                                <div class="mt16">
+                                    <field name="sample_product_additional_ids" widget="many2many_tags"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

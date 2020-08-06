@@ -1,0 +1,14 @@
+@startuml General Workflow
+
+start
+:Take some action;
+note: This is a sample diagram
+if (Expression) then (Is Valid)
+    :Wow! It's valid!;
+    note: This happens\nsometime
+else (Not valid)
+    :Maybe the other day;
+    note right: This also happens\nbut hope not so often
+endif
+stop
+@enduml
