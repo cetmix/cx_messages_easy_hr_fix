@@ -1,6 +1,6 @@
 {
     "name": "HR Public Employee Fix",
-    "version": "13.0.1.0.1",
+    "version": "14.0.1.0.0",
     "summary": "HR Public Employee Fix",
     "author": "Cetmix",
     "license": "LGPL-3",
