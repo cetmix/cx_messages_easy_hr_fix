@@ -11,7 +11,7 @@
     HR Public Employee Fix
     """,
     "depends": [
-        "hr"
+        "hr",
     ],
     'external_dependencies': {
     },
