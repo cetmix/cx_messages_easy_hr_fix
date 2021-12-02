@@ -1,10 +1,10 @@
 {
     "name": "HR Public Employee Fix",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "summary": "HR Public Employee Fix",
     "author": "Cetmix",
     "license": "LGPL-3",
-    "category": "Discuss",
+    "category": "HR",
     "website": "https://cetmix.com",
     "live_test_url": "https://demo.cetmix.com",
     "description": """
